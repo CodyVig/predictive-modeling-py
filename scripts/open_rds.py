@@ -27,7 +27,10 @@ import rpy2.robjects.packages as rpackages
 import rpy2.robjects.pandas2ri
 
 
-def get_session_file(session: int) -> rpy2.robjects.vectors.ListVector:
+def get_session_file(
+        session: int,
+        test: bool = False
+    ) -> rpy2.robjects.vectors.ListVector:
     """
     Opens the RDS file for the specified session and returns the data as a
     ListVector object (essentially a list of DataFrames).
@@ -53,7 +56,10 @@ def get_session_file(session: int) -> rpy2.robjects.vectors.ListVector:
     utils.chooseCRANmirror(ind=1)
 
     # Define the file path
-    file_path = f"data/session{str(session)}.rds"
+    if test:
+        file_path = f"test_data/test{str(session)}.rds"
+    else:
+        file_path = f"data/session{str(session)}.rds"
 
     # Read the RDS file
     readRDS = ro.r["readRDS"]  # Get the R function readRDS
